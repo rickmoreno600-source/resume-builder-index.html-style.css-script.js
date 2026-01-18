@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Free Resume Builder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Free Resume Builder</h1>
+
+<div class="container">
+  <!-- Form -->
+  <div class="form">
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="title" placeholder="Job Title">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="phone" placeholder="Phone">
+    <textarea id="summary" placeholder="Professional Summary"></textarea>
+    <textarea id="experience" placeholder="Work Experience"></textarea>
+    <textarea id="education" placeholder="Education"></textarea>
+    <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+
+    <button onclick="generateResume()">Generate Resume</button>
+    <button onclick="window.print()">Download PDF</button>
+  </div>
+
+  <!-- Resume Preview -->
+  <div class="resume" id="resume">
+    <h2 id="r-name"></h2>
+    <h3 id="r-title"></h3>
+    <p id="r-contact"></p>
+    <hr>
+    <h4>Summary</h4>
+    <p id="r-summary"></p>
+
+    <h4>Experience</h4>
+    <p id="r-experience"></p>
+
+    <h4>Education</h4>
+    <p id="r-education"></p>
+
+    <h4>Skills</h4>
+    <ul id="r-skills"></ul>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.form, .resume {
+  background: white;
+  padding: 20px;
+  width: 50%;
+  border-radius: 6px;
+}
+
+input, textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+button {
+  padding: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.resume h2 {
+  margin-bottom: 5px;
+}
+
+.resume h3 {
+  color: gray;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .resume, .resume * {
+    visibility: visible;
+  }
+  .resume {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+function generateResume() {
+  document.getElementById("r-name").innerText =
+    document.getElementById("name").value;
+
+  document.getElementById("r-title").innerText =
+    document.getElementById("title").value;
+
+  document.getElementById("r-contact").innerText =
+    document.getElementById("email").value + " | " +
+    document.getElementById("phone").value;
+
+  document.getElementById("r-summary").innerText =
+    document.getElementById("summary").value;
+
+  document.getElementById("r-experience").innerText =
+    document.getElementById("experience").value;
+
+  document.getElementById("r-education").innerText =
+    document.getElementById("education").value;
+
+  const skills = document.getElementById("skills").value.split(",");
+  const skillsList = document.getElementById("r-skills");
+  skillsList.innerHTML = "";
+
+  skills.forEach(skill => {
+    const li = document.createElement("li");
+    li.textContent = skill.trim();
+    skillsList.appendChild(li);
+  });
+}
